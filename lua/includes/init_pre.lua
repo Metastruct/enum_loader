@@ -1,4 +1,4 @@
-_G.start_garbage = collectgarbage"count" -- let's see how much garry fucks us
+_G.start_garbage = collectgarbage"count"
 
 if SERVER then
 	AddCSLuaFile("init.lua")
@@ -10,7 +10,8 @@ end
 if CLIENT then
 	local col={r=255,g=255,b=255,a=255}
 	_G.isthisbroken=print
-	_G.print=function(...)
+	local MsgC=MsgC
+	function print(...)
 		local a={}
 		for i=1,select('#',...) do
 			local v=select(i,...)
