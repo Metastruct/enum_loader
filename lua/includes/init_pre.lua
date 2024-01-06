@@ -23,6 +23,32 @@ if CLIENT then
 	end
 end
 
+local function registry_hack()
+	-- debug.getregistry has been removed
+	local _R_META = {}
+
+	function _R_META:__index(key)
+		if isstring(key) then return FindMetaTable(key) end
+	end
+
+	local _R = {} -- fake _R
+	setmetatable(_R, _R_META)
+	debug._getregistry = debug._getregistry or debug.getregistry
+
+	local errored = false
+	function debug.getregistry()
+		if not errored and (SERVER or file.Exists("cfg/debug_registry.flag.cfg", "MOD")) then
+			ErrorNoHaltWithStack("Something still uses debug.getregistry()")
+		end
+
+		return _R
+	end
+end
+
+if not debug.getregistry or #debug.getregistry()==0 then
+	registry_hack()
+end
+
 for k,v in pairs(file.Find("includes/enum/*.lua", "LUA")) do
 	include("enum/"..v)
 end
