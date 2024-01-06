@@ -36,7 +36,7 @@ local function registry_hack()
 	local _R_META = {}
 
 	function _R_META:__index(key)
-		if isstring(key) then return FindMetaTable(key) end
+		if isstring(key) then return INIT_FindMetaTable(key) end
 	end
 
 	local _R = {} -- fake _R
