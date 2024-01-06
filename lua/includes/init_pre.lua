@@ -47,6 +47,7 @@ local function registry_hack()
 	function debug.getregistry()
 		if not errored and (SERVER or file.Exists("cfg/debug_registry.flag.cfg", "MOD")) then
 			ErrorNoHaltWithStack("Something still uses debug.getregistry()")
+			errored = true
 		end
 
 		return _R
